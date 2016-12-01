@@ -1,0 +1,39 @@
+{% extends 'views/base/base.html' %}
+{% load widget_tweaks %}
+{% load bootstrap %}
+
+{% block left %}
+<div class="form-container">
+  {% for status, message in statuses.items %}
+    {% if message %}
+      <div class="alert alert-{{ status }}">
+        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+        {{ message }}
+      </div>
+    {% endif %}
+  {% endfor %}
+  <form id="reclamo_alta" method="POST" action="{% url 'reclamo_alta' %} " enctype="multipart/form-data"
+    class="form-horizontal" >
+    {% csrf_token %}
+
+    {% form_input formulario_reclamo.nombre %}
+    {% form_input formulario_reclamo.apellido %}
+    {% form_input formulario_reclamo.dni %}
+    {% form_input formulario_reclamo.correo %}
+    {% form_input formulario_reclamo.telefono %}
+    {% form_input formulario_reclamo.imagen %}
+    {% form_input formulario_reclamo.descripcion "rows:5" %}
+
+    {{formulario_reclamo.latitud}}
+    {{formulario_reclamo.longitud}}
+
+    <div class="pull-right">
+      <input type="submit" class="btn btn-success" value="Guardar"/>
+    </div>
+  </form>
+</div>
+{% endblock %}
+
+{% block right %}
+  <div id="map-canvas"></div>
+{% endblock %}
